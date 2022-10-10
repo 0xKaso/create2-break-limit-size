@@ -2,13 +2,16 @@
 pragma solidity ^0.8.9;
 
 // Uncomment this line to use console.log
-// import "hardhat/console.sol";
-import {Middleware} from "./Main.sol";
-import {IMiddleware} from "./Main.sol";
+import {Main} from "./Main.sol";
 
 contract Factory {
     uint256 public unlockTime;
     address payable public owner;
+    bytes public createCode;
+
+    constructor() {
+       createCode = type(Main).creationCode;
+    }
 
     function getTime() public view {
         require(
@@ -1130,8 +1133,8 @@ contract Factory {
 
     uint256 private counter;
 
-    function create(address MiddlewareAddress) external returns (address base) {
-        bytes memory bytecode = IMiddleware(MiddlewareAddress).createCode();
+    function create() external returns (address base) {
+        bytes memory bytecode = createCode;
         bytes32 salt = keccak256(abi.encodePacked(counter++));
 
         assembly {

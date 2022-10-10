@@ -12,40 +12,22 @@ async function main() {
   // const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
 
   // const lockedAmount = hre.ethers.utils.parseEther("1");
-
-  const Middleware = await hre.ethers.getContractFactory("Middleware");
-  const MiddlewareInstance = await Middleware.deploy();
-  await MiddlewareInstance.deployed();
-
   const Factory = await hre.ethers.getContractFactory("Factory");
   const FactoryInstance = await Factory.deploy();
   await FactoryInstance.deployed();
 
-  const newMain1 = await FactoryInstance.callStatic.create(
-    MiddlewareInstance.address
-  );
+  const newMain1 = await FactoryInstance.callStatic.create();
 
-  await FactoryInstance.create(
-    MiddlewareInstance.address
-  );
+  await FactoryInstance.create();
 
-  const newMain2 = await FactoryInstance.callStatic.create(
-    MiddlewareInstance.address
-  );
+  const newMain2 = await FactoryInstance.callStatic.create();
 
-  await FactoryInstance.create(
-    MiddlewareInstance.address
-  );
+  await FactoryInstance.create();
   
-  const newMain3 = await FactoryInstance.callStatic.create(
-    MiddlewareInstance.address
-  );
+  const newMain3 = await FactoryInstance.callStatic.create();
 
-  await FactoryInstance.create(
-    MiddlewareInstance.address
-  );
-
-  console.log("Middleware ", MiddlewareInstance.address);
+  await FactoryInstance.create();
+  
   console.log("Factory ", FactoryInstance.address);
   console.log("Main1 ", newMain1);
   console.log("Main2 ", newMain2);
