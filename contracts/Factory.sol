@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 // Uncomment this line to use console.log
 import {Main} from "./Main.sol";
+import "./Create2.sol";
 
 contract Factory {
     uint256 public unlockTime;
@@ -15,17 +16,9 @@ contract Factory {
     }
 
     function create() external returns (address base) {
-        bytes memory bytecode = createCode;
-        bytes32 salt = keccak256(abi.encodePacked(counter++));
-
-        assembly {
-            base := create2(0, add(bytecode, 32), mload(bytecode), salt)
-            if iszero(extcodesize(base)) {
-                revert(0, 0)
-            }
-        }
-
+        address newMain = Create2.create2(createCode,counter);
         counter++;
+        return newMain;
     }
 
     function forFullStoreage() public view {
